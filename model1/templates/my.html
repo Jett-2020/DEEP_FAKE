@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Responsive Website</title>
+    <!-- Link To CSS -->
+    <link rel="stylesheet" href="static\mystyle.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <!-- Logo -->
+        <a href="#" class="logo"> <img src="static\cypher.png" style="height: 60px;">C Y P H E R</a>
+        <div class="toggle" onclick="toggleMenu();"></div>
+        <ul class="menu">
+            <div class="menu-center">
+                <li><a href="#services" onclick="toggleMenu();">Home</a></li>
+                <li><a href="#team" onclick="toggleMenu();">Services </a></li>
+                <li><a href="#clients" onclick="toggleMenu();">Subscription</a></li>
+                <li><a href="#connect" class="active-btn" onclick="toggleMenu();">Report Guide</a></li>
+            </div>
+            <li><a href="#login" class="login" id="loginBtn">Login</a></li>
+        </ul>
+    </nav>
+
+    <section id="home">
+        <div class="wrapper">
+            <h1 class="content">
+                Detect Deep Fakes   
+            </h1>
+            <div class="content">
+                <ol>
+                    <li><span>Analyze</span></li>
+                    <li><span>Verify</span></li>
+                    <li><span>Alert</span></li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="upload-container">
+            <form id="upload-form" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+                <label class="upload-btn" for="file-upload">
+                    <div class="upload-icon">
+                        <img src="static\cloud-upload-regular-24.png" alt="">
+                    </div>
+                    <div class="text">Click here to <span>upload <style>color:blue</style></span>your Video</div> 
+                    <input id="file-upload" type="file" name="video" onchange="handleFileUpload()">
+                </label>
+            </form>
+        </div>
+        
+    
+        <!-- Popup Notification with Animated Checkmark -->
+        <div id="upload-popup" class="popup">
+            <div class="popup-content">
+                <div class="success-checkmark">
+                    <div class="check-icon">
+                        <span class="icon-line line-tip"></span>
+                        <span class="icon-line line-long"></span>
+                        <div class="icon-circle"></div>
+                        <div class="icon-fix"></div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    
+        <script>
+            function handleFileUpload() {
+                // Show popup with checkmark animation
+                document.getElementById('upload-popup').classList.add('active');
+                setTimeout(function () {
+                    document.getElementById('upload-popup').classList.remove('active');
+                }, 3000); // Hide popup after 3 seconds
+            }
+        </script>
+        
+
+          <div class="alertbutton">
+            <a target="_blank" href="https://www.cybercrime.gov.in/Webform/Crime_AuthoLogin.aspx">
+              <button class="btn1"> Alert</button>
+            </a>
+        </div>
+        <!-- Scroll -->
+            
+        </div>
+    </section>
+
+    <!-- Services -->
+    
