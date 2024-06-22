@@ -27,7 +27,7 @@ class Classifier:
 class model(Classifier):
     def __init__(self, learning_rate=0.001):
         self.model = self.init_model()
-        optimizer = Adam(lr=learning_rate)
+        optimizer = Adam(learning_rate=0.001)
         self.model.compile(optimizer=optimizer,
                            loss='mean_squared_error',
                            metrics=['accuracy'])

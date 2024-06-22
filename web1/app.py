@@ -1,10 +1,10 @@
 import os
-from flask import Flask, request, jsonify, render_template
-from flask_cors import CORS
-from frame_analysis import send
+from flask import Flask, request, jsonify ,render_template
+
+from frame_analysis import send  # Ensure this is the correct import for your 'send' function
 
 app = Flask(__name__)
-CORS(app)
+# This will enable CORS for all routes
 UPLOAD_FOLDER = './'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -24,10 +24,7 @@ def upload_video():
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], 'fake.mp4')
     file.save(file_path)
 
-    return jsonify({"message": "Video uploaded successfully."}), 200
-
-@app.route('/analyze', methods=['POST'])
-def analyze_video():
+    # Analyze the video
     try:
         result = send()
         return jsonify({"message": result}), 200

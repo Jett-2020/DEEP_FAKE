@@ -7,16 +7,260 @@
     <link rel="stylesheet" href="static/style.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        emailjs.init('service_9jy7y17'); // Replace with your actual EmailJS User ID
+    </script>
+    <style>
+        /* Basic resets */
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        /* Body styles */
+        body {
+            transition: padding-right 0.3s ease;
+        }
+
+        /* Header styles with glassmorphism */
+        header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 9%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .navlist {
+            display: flex;
+        }
+
+        .navlist a {
+            color: rgb(255, 255, 255);
+            margin-left: 60px;
+            font-size: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: all 0.55s ease;
+        }
+
+        .navlist a:hover {
+            border-bottom: 2px solid white;
+        }
+
+        #menu-icon {
+            color: white;
+            font-size: 35px;
+            z-index: 10001;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Loading spinner styles */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 50%;
+            left: 70%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #50595f;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px; 
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+            backdrop-filter: blur(20px); /* Blur effect */
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Slight border for more definition */
+            width: 80%;
+            height: 80%;
+            position: relative;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Hero section */
+        .hero {
+            height: 100%;
+            width: 100%;
+            min-height: 100vh;
+            background: linear-gradient(90deg, #FE5834, #68656f, #68656f, #d4d7dd, #39c3d2);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            align-items: center;
+            gap: 2rem;
+        }
+
+        section {
+            padding: 0 19%;
+        }
+
+        .hero-text h5 {
+            font-size: 14px;
+            font-weight: 400;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .hero-text h1 {
+            font-family: "Carter One", system-ui;
+            font-size: 90px;
+            line-height: 1;
+            color: white;
+            margin: 0 0 45px;
+        }
+
+        .hero-text h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .hero-text p {
+            color: white;
+            font-size: 15px;
+            line-height: 1.9;
+            margin-bottom: 40px;
+        }
+
+        img {
+            position: absolute;
+            width: 900px;
+            height: 900px;
+            top: -388px;
+            left: 120px;
+        }
+
+        .hero-text .styled-input-label {
+            display: inline;
+            color: white;
+            background: #68656f;
+            border: 1px solid transparent;
+            padding: 12px 30px;
+            line-height: 1.4;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 30px;
+            text-transform: uppercase;
+            transition: all 0.55s ease;
+        }
+
+        .hero-text .styled-input-label:hover {
+            background: transparent;
+            border: 1px solid white;
+            transform: translateX(8px);
+        }
+
+        .hero-text .button {
+            display: inline;
+            color: white;
+            background: #68656f;
+            border: 1px solid transparent;
+            padding: 12px 30px;
+            line-height: 1.4;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 30px;
+            text-transform: uppercase;
+            transition: all 0.55s ease;
+        }
+
+        .hero-text .button:hover {
+            background: transparent;
+            border: 1px solid white;
+            transform: translateX(8px);
+        }
+
+        .icons {
+            position: absolute;
+            top: 50%;
+            padding: 0 9%;
+            transform: rotateY(-50%);
+        }
+
+        .icons i {
+            display: block;
+            margin: 26px 0;
+            font-size: 24px;
+            color: white;
+            transition: all 0.50s ease;
+        }
+
+        .icons i:hover {
+            color: #68656f;
+            transform: rotateX(-5px);
+        }
+    </style>
 </head>
 <body>
     <header>
         <a href="#" class="logo">CPHYER</a>
         <ul class="navlist">
             <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Clans</a></li>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Home</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Subscription</a></li>
+            <li><a href="#">Report Guid</a></li>
+            <li><a href="#">News</a></li>
         </ul>
         <div class="bx bx-menu" id="menu-icon"></div>
     </header>
@@ -27,25 +271,320 @@
             <h4></h4>
             <h1>DeepFake</h1>
             <p>Deepfakes were originally defined as synthetic media that have been digitally manipulated to replace one person's likeness convincingly with that of another.</p>
-
-            <form id="uploadForm" enctype="multipart/form-data">
-                <input type="file" name="video" id="videoInput" required />
-                <button type="submit">File Upload</button>
-            </form>
-            <button id="analyzeButton">Analyze</button>
-
-            <p id="result"></p>
+            <label for="videoUpload" class="styled-input-label">Choose Video</label>
+            <input type="file" id="videoUpload" accept="video/*" class="styled-input">
+            <button id="uploadButton" class="button">Upload and Analyze</button>
+            
+            
         </div>
         <div class="hero-img">
-            <img src="img.png" alt="Deepfake Image">
+            <img src="static/img2.png" alt="DeepFake">
         </div>
+        
+        
+        
+          
     </section>
     <div class="icons">
         <a href="#"><i class="ri-instagram-line"></i></a>
         <a href="#"><i class="ri-youtube-line"></i></a>
         <a href="#"><i class="ri-twitter-x-line"></i></a>
     </div>
+
+    <!-- Glassmorphism Sidebar -->
+    <section>
+        <div class="container">
+            <div class="box">
+              <span></span>
+              <div class="content">
+                <h2>Money Scandal</h2>
+                <p>Mumbai doctor loses ₹7 lakh in share market scam due to misled by Mukesh Ambani deepfake video..</p>
+                <a target="_blank" href="https://www.livemint.com/news/india/mukesh-ambani-deepfake-video-instagram-share-market-scam-whatsapp-group-mumbai-police-case-11719023835004.html">Read More</a>
+              </div>
+            </div>
+            <div class="box">
+              <span></span>
+              <div class="content">
+                <h2>'Deepfake' fraud<</h2>
+                <p>AI-driven 'Deepfake' fraud...Kohzikode Police nabs 5 accused.</p>
+                <a target="_blank" href="https://english.mathrubhumi.com/news/crime/kozhikode-squad-arrest-five-in-connection-with-deepfake-fraud-1.9658405">Read More</a>
+              </div>
+            </div>
+            <div class="box">
+              <span></span>
+              <div class="content">
+                <h2>A lack of trust</h2>
+                <p>How deepfakes and AI could rattle the US election.</p>
+                <a target="_blank" href="https://www.aljazeera.com/news/2024/6/19/a-lack-of-trust-how-deepfakes-and-ai-could-rattle-the-us-elections">Read More</a>
+              </div>
+            </div>
+          </div>
+    </section>
+
+
+    <!-- Loading spinner -->
+    <div class="loading-spinner" id="loadingSpinner"></div>
+
+    <!-- The Modal -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Analysis Result</h2>
+            <p id="resultText"></p>
+            <img class="img1" src="static/1.png" alt="">
+            <img class="img2" src="static/fake.jpg" alt="">
+            <button id="downloadPdfButton" class="button1">Download PDF</button>
+            <button id="sendEmailButton" class="button2">Send PDF via Email</button>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="static/script.js"></script>
+    <script>
+        // Toggle Sidebar
+        document.getElementById('menu-icon').addEventListener('click', function() {
+            document.body.classList.toggle('sidebar-open');
+        });
+
+        // Handle upload button click
+        document.getElementById('uploadButton').addEventListener('click', function() {
+            const fileInput = document.getElementById('videoUpload');
+            const file = fileInput.files[0];
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const resultModal = document.getElementById('resultModal');
+            const resultText = document.getElementById('resultText');
+            const closeModal = document.getElementsByClassName('close')[0];
+
+            if (!file) {
+                alert('Please select a video file.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('video', file);
+
+            // Show loading spinner
+            loadingSpinner.style.display = 'block';
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading spinner
+                loadingSpinner.style.display = 'none';
+                
+                // Display result modal with the analysis summary
+                resultText.textContent = data.message;
+                resultModal.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingSpinner.style.display = 'none';
+                alert('An error occurred while analyzing the video.');
+            });
+
+            // Close the modal
+            closeModal.onclick = function() {
+                resultModal.style.display = 'none';
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == resultModal) {
+                    resultModal.style.display = 'none';
+                }
+            }
+        });
+    </script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="static/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script>
+        // Toggle Sidebar
+        document.getElementById('menu-icon').addEventListener('click', function() {
+            document.body.classList.toggle('sidebar-open');
+        });
+    
+        // Handle upload button click
+        document.getElementById('uploadButton').addEventListener('click', function() {
+            const fileInput = document.getElementById('videoUpload');
+            const file = fileInput.files[0];
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const resultModal = document.getElementById('resultModal');
+            const resultText = document.getElementById('resultText');
+            const closeModal = document.getElementsByClassName('close')[0];
+    
+            if (!file) {
+                alert('Please select a video file.');
+                return;
+            }
+    
+            const formData = new FormData();
+            formData.append('video', file);
+    
+            // Show loading spinner
+            loadingSpinner.style.display = 'block';
+    
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading spinner
+                loadingSpinner.style.display = 'none';
+                
+                // Display result modal with the analysis summary
+                resultText.textContent = data.message;
+                resultModal.style.display = 'block';
+    
+                // Store the PDF download URL if provided
+                if (data.pdfUrl) {
+                    document.getElementById('downloadPdfButton').dataset.pdfUrl = data.pdfUrl;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingSpinner.style.display = 'none';
+                alert('An error occurred while analyzing the video.');
+            });
+    
+            // Close the modal
+            closeModal.onclick = function() {
+                resultModal.style.display = 'none';
+            }
+    
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == resultModal) {
+                    resultModal.style.display = 'none';
+                }
+            }
+        });
+    
+        // Handle PDF download button click
+        document.getElementById('downloadPdfButton').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+    
+            // Add the result text
+            pdf.text(document.getElementById('resultText').textContent, 10, 10);
+    
+            // Add the images
+            const img1 = document.querySelector('.img1');
+            const img2 = document.querySelector('.img2');
+    
+            // Convert images to base64
+            const img1Src = img1.src;
+            const img2Src = img2.src;
+    
+            // Add the first image
+            const img1Width = 180; // Width of the image in the PDF
+            const img1Height = 90; // Height of the image in the PDF
+            pdf.addImage(img1Src, 'PNG', 10, 20, img1Width, img1Height);
+    
+            // Add the second image
+            const img2Width = 180; // Width of the image in the PDF
+            const img2Height = 90; // Height of the image in the PDF
+            pdf.addImage(img2Src, 'PNG', 10, 120, img2Width, img2Height);
+    
+            // Save the PDF
+            pdf.save('report.pdf');
+        });
+    </script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="static/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script>
+        // Toggle Sidebar
+        document.getElementById('menu-icon').addEventListener('click', function() {
+            document.body.classList.toggle('sidebar-open');
+        });
+    
+        // Handle upload button click
+        document.getElementById('uploadButton').addEventListener('click', function() {
+            const fileInput = document.getElementById('videoUpload');
+            const file = fileInput.files[0];
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const resultModal = document.getElementById('resultModal');
+            const resultText = document.getElementById('resultText');
+            const closeModal = document.getElementsByClassName('close')[0];
+    
+            if (!file) {
+                alert('Please select a video file.');
+                return;
+            }
+    
+            const formData = new FormData();
+            formData.append('video', file);
+    
+            // Show loading spinner
+            loadingSpinner.style.display = 'block';
+    
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading spinner
+                loadingSpinner.style.display = 'none';
+                
+                // Display result modal with the analysis summary
+                resultText.textContent = data.message;
+                resultModal.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingSpinner.style.display = 'none';
+                alert('An error occurred while analyzing the video.');
+            });
+    
+            // Close the modal
+            closeModal.onclick = function() {
+                resultModal.style.display = 'none';
+            }
+    
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == resultModal) {
+                    resultModal.style.display = 'none';
+                }
+            }
+        });
+    
+        // Handle PDF download button click
+        document.getElementById('downloadPdfButton').addEventListener('click', function() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+    
+            // Add the result text
+            pdf.text(document.getElementById('resultText').textContent, 10, 10);
+    
+            // Add the images
+            const img1 = document.querySelector('.img1');
+            const img2 = document.querySelector('.img2');
+    
+            // Convert images to base64
+            const img1Src = img1.src;
+            const img2Src = img2.src;
+    
+            // Add the first image
+            const img1Width = 180; // Width of the image in the PDF
+            const img1Height = 90; // Height of the image in the PDF
+            pdf.addImage(img1Src, 'PNG', 10, 20, img1Width, img1Height);
+    
+            // Add the second image
+            const img2Width = 180; // Width of the image in the PDF
+            const img2Height = 90; // Height of the image in the PDF
+            pdf.addImage(img2Src, 'PNG', 10, 120, img2Width, img2Height);
+    
+            // Save the PDF
+            pdf.save('report.pdf');
+        });
+        
+    
 </body>
 </html>
