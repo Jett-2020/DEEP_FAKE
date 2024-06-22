@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Website</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">CPHYER</a>
+        <ul class="navlist">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Subscription</a></li>
+            <li><a href="#">Report Guid</a></li>
+            <li><a href="#">News</a></li>
+        </ul>
+        <div class="bx bx-menu" id="menu-icon"></div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-text">
+            <h5></h5>
+            <h4></h4>
+            <h1>DeepFake</h1>
+            <p>Deepfakes were originally defined as synthetic media that have been digitally manipulated to replace one person's likeness convincingly with that of another.</p>
+            <label for="videoUpload" class="styled-input-label">Choose Video</label>
+            <input type="file" id="videoUpload" accept="video/*" class="styled-input">
+            <button id="uploadButton" class="button">Upload and Analyze</button>
+        </div>
+        <div class="hero-img">
+            <img src="static/img2.png" alt="DeepFake">
+        </div>
+    </section>
+    <div class="icons">
+        <a href="#"><i class="ri-instagram-line"></i></a>
+        <a href="#"><i class="ri-youtube-line"></i></a>
+        <a href="#"><i class="ri-twitter-x-line"></i></a>
+    </div>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="static/script.js"></script>
+    <script>
+        document.getElementById('uploadButton').addEventListener('click', function() {
+            const fileInput = document.getElementById('videoUpload');
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Please select a video file.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('video', file);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
