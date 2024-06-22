@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins',sans-serif;
+    list-style: none;
+    text-decoration: none;
+}
+header{
+    position:fixed;
+    right: 0;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 33px 9%;
+    background: transparent;
+}
+
+.logo{
+    font-size: 30px;
+    font-weight: 700;
+    color: white;
+}
+.navlist{
+    display: flex;
+}
+.navlist a{
+    color: white;
+    margin-left: 60px;
+    font-size: 15px;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    transition: all .55s ease;
+}
+.navlist a:hover{
+    border-bottom: 2px solid white;
+}
+#menu-icon{
+    color :white;
+    font-size: 35px;
+    z-index: 10001;
+    cursor: pointer;
+    display: none;
+}
+
+.hero{
+    height: 100%;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #FE5834 , #68656f, #68656f, #d4d7dd, #39c3d2);
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    align-items: center;
+    gap: 2rem;
+}
+section{
+    padding: 0 19%;
+}
+.hero-text h5{
+    font-size: 14px;
+    font-weight: 400;
+    color: white;
+    margin-bottom: 40px;
+}
+.hero-text h1{
+    font-family: "Carter One", system-ui;
+    font-size: 90px;
+    line-height: 1;
+    color: white;
+    margin: 0 0 45px;
+}
+.hero-text h4{
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 10px;
+}
+.hero-text p{
+    color: white;
+    font-size: 15px;
+    line-height: 1.9;
+    margin-bottom: 40px;
+}
+img{
+    position: absolute;
+    width: 597px;
+    height: 597px;
+    top: -250px;
+    left: 120px;
+}
+.hero-text {
+    display: inline;
+    color: white;
+    background: #68656f;
+    border: 1px solid transparent;
+    padding: 12px 30px;
+    line-height: 1.4;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 30px;
+    text-transform: uppercase;
+    transition: all .55s ease;
+}
+.hero-text a:hover{
+    background: transparent;
+    border: 1px solid white;
+    transform: translateX(8px)
+}
+.icons{
+    position: absolute;
+    top: 50%;
+    padding: 0 9%;
+    transform: rotateY(-50%);
+}
+.icons i{
+    display: block;
+    margin: 26px 0;
+    font-size: 24px;
+    color:  white;
+    transition: all .50s ease;
+}
+.icons i:hover{
+    color: #68656f;
+    transform: rotateX(-5px);
+}
